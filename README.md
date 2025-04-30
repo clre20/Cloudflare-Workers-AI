@@ -40,11 +40,11 @@ class Config:
     SCHEDULER_API_ENABLED = True
     JOBS_DB_URL = SQLALCHEMY_DATABASE_URI
 
+```
 
 ---
-
 models.py
-
+```python
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 
@@ -81,11 +81,11 @@ class MonitorResult(db.Model):
     details = db.Column(db.Text)
     monitor = db.relationship('Monitor', backref='results')
 
-
+```
 ---
 
 monitors.py (檢查函式)
-
+```python
 import socket, subprocess, time
 import requests
 from icmplib import ping
@@ -150,11 +150,11 @@ def run_monitor(monitor_id):
     monitor.last_status = (status == 'up')
     db.session.commit()
 
-
+```
 ---
 
 scheduler.py
-
+```python
 from apscheduler.schedulers.background import BackgroundScheduler
 from flask import current_app
 from models import Monitor, db
@@ -174,11 +174,11 @@ def init_scheduler(app):
                               trigger='interval', seconds=m.frequency,
                               args=[m.id], id=str(m.id))
 
-
+```
 ---
 
 notifications.py
-
+```python
 import smtplib
 import requests
 from email.mime.text import MIMEText
@@ -213,12 +213,12 @@ def send_email(to_addr, subject, body):
 def send_discord(content):
     data = {"content": content}
     requests.post(DISCORD_WEBHOOK_URL, json=data)
-
+```
 
 ---
 
 app.py
-
+```python
 from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_migrate import Migrate
@@ -322,12 +322,12 @@ def monitor_chart(id):
 
 if __name__ == '__main__':
     app.run(debug=True)
-
+```
 
 ---
 
 templates/base.html
-
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -374,11 +374,11 @@ templates/login.html
 </form>
 {% endblock %}
 
-
+```
 ---
 
 templates/monitors.html
-
+```html
 {% extends 'base.html' %}
 {% block content %}
 <h2>監控列表</h2>
@@ -406,11 +406,11 @@ templates/monitors.html
 </table>
 {% endblock %}
 
-
+```
 ---
 
 templates/monitor_form.html
-
+```html
 {% extends 'base.html' %}
 {% block content %}
 <h2>{{ '編輯' if monitor else '新增' }} 監控</h2>
@@ -447,12 +447,12 @@ templates/monitor_form.html
   <button class="btn btn-primary">送出</button>
 </form>
 {% endblock %}
-
+```
 
 ---
 
 templates/chart.html
-
+```html
 {% extends 'base.html' %}
 {% block content %}
 <h2>{{ monitor.name }} - 歷史狀態</h2>
@@ -479,12 +479,12 @@ templates/chart.html
   });
 </script>
 {% endblock %}
-
+```
 
 ---
 
 requirements.txt
-
+```txt
 Flask
 Flask-Login
 Flask-Migrate
@@ -493,3 +493,4 @@ APScheduler
 requests
 icmplib
 
+```
