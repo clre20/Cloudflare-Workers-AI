@@ -27,7 +27,7 @@ https://example.com/llama-3-8b
 
 ### 使用方法
 - HTTP 方法必須為 POST
-- 請求主體必須為 JSON 格式，並包含必填欄位 prompt
+- 請求主體必須為 JSON 格式，並包含必填欄位 `prompt`
 
 python範例：
 ```python
@@ -35,7 +35,7 @@ import requests
 
 # 選擇要用的模型，例如 llama-3-8b
 model_key = "llama-3-8b"
-url = f"https://example.com/{model_key}"  # 改成你部署的 URL
+url = f"https://example.com/{model_key}"
 
 # 準備要送出的 prompt
 data = {
