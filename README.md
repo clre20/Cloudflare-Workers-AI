@@ -28,6 +28,7 @@ https://example.com/llama-3-8b
 ### 使用方法
 - HTTP 方法必須為 POST
 - 請求主體必須為 JSON 格式，並包含必填欄位 prompt
+
 python範例:
 ```python
 import requests
